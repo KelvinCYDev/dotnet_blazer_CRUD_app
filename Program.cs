@@ -1,10 +1,20 @@
+using dotnet_blazer_CRUD_app.Components.Data;
 using dotnet_blazer_CRUD_app.Components;
+using Microsoft.EntityFrameworkCore;
+using dotnet_blazer_CRUD_app.Components.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"));
+});
+
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 var app = builder.Build();
 
